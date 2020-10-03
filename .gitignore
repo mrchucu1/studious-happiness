@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/vim,latex,haskell
 # Edit at https://www.toptal.com/developers/gitignore?templates=vim,latex,haskell
+*.zip
 
 ### Haskell ###
 dist
