@@ -1,195 +1,174 @@
 {-
-- Estructuras discretas 2021-1
+- Estructuras Discretas 2021-1
 - Profesor: Alma Rosario Arévalo Loyola
 - Ayudante: José Ricardo Desales Santos
 - Ayudante: Karla Socorro García Alcántara
 - Laboratorio: Emiliano Galeana Araujo
-- Laboratorio: Rodrigo Guadalupe Chávez Jiménez
-- Practica 1: Introducción a Haskell y funciones.
-- Integrantes: Diego Navarro,
+- Laboratorio: Ing. Rodrigo Guadalupe Chávez Jiménez
+- Practica 3: Funciones sobre listas
+- Integrantes: Diego Navarro Macias
 -
 -
 -}
 
-module Funciones where
+module FuncionesListas where
 
 --------------------------------------------------------------------------------
 --------                            FUNCIONES                           --------
 --------------------------------------------------------------------------------
 
--- | Función que regresa el sucesor de un número, esto es el número más uno.
-sucN :: Int -> Int
-sucN x = x + 1
+-- | Función que regresa la cabeza de una lista.
+cabeza :: [a] -> a
+cabeza (a:cx) = a 
 
--- | Función que regresa el máximo de dos números.
-maxNum :: Int -> Int -> Int
-maxNum a b = if a >= b
-             then a else b
+-- | Función que regresa la cola de una lista.
+cola :: [a] -> [a]
+cola (a:cx) = cx 
 
--- | Función que suma dos números.
-sumaNum :: Int -> Int -> Int
-sumaNum a b = a + b
+-- | Función que regresa el último elemento de una lista.
+ultimo :: [a] -> a
+ultimo [a] = a
+ultimo (_:a) = ultimo a 
+ultimo [] = error "You have no power here!"
 
--- | Función que resta dos números (El primero menos el segundo).
-restaNum :: Int -> Int -> Int
-restaNum a b = a - b
+-- | Función que devuelve la lista menos el último elemento.
+casiTodos :: [a] -> [a]
+casiTodos a = take ((length a) - 1 ) a
 
--- | Función que multiplica dos números.
-multNum :: Int -> Int -> Int
-multNum a b = a * b
+-- | Función que regresa el n-ésimo elemento de atrás para adelante.
+(!!!) :: [a] -> Int -> a
+(!!!) a n = a !! n 
 
--- | Función que divide dos números (El primreo es el numerador).
-divNum :: Int -> Int -> Int
-divNum n d = if d == 0
-             then 0
-             else n `div` d
+-- | Función que nos dice si un elemento está en una lista.
+existe :: (Eq a) => [a] -> a -> Bool
+existe x q = length ( filter (== q) x )  /= 0
 
--- | Función que regresa la negación de una proposición.
---   Por ejemplo: True y False
-negP :: Bool -> Bool
-negP a = not a
+-- | Función que suma todos los elementos de una lista de números.
+sumaNumsList :: [Int] -> Int
+sumaNumsList a = sum a
 
--- | Función que regresa la conjunción de dos proposiciones.
---   Por ejemplo: True y False
-conjP :: Bool -> Bool -> Bool
-conjP a b = a && b
+-- | Función que quita los repetidos de una lista.
+repeticiones :: Eq a => [a] -> [a]
+repeticiones = error "D:"
 
--- | Función que regresa la disyunción de dos proposiciones.
---   Por ejemplo: True y False
-disyP :: Bool -> Bool -> Bool
-disyP a b =  a || b
+-- | Función que voltea una lista.
+reversa :: [a] -> [a]
+reversa = error "D:"
 
--- | Función que calcula el valor absoluto de un número.
-absNum :: Int -> Int
-absNum a = abs a
+-- | Función que regresa una tupla (a, b) donde a es el elemento de la lista y b
+--           es el número de veces que se repite 'a'.
+cuantasVeces :: (Eq a) => [a] -> a -> [(a, Int)]
+cuantasVeces = error "D:"
 
--- | Función que regresa el área de un círculo.
-areaCirc :: Double -> Double
-areaCirc r = pi * r**2
+--------------------------------------------------------------------------------
+--------                     LISTAS POR COMPRENSIÓN                     --------
+--------------------------------------------------------------------------------
 
--- | Función que regresa la distancia entre dos puntos (x1, x2), (y1. y2).
-distancia :: Double -> Double -> Double -> Double -> Double
-distancia x1 x2 y1 y2 = ( (x1 - y1)**2 + (x2 - y2)**2 ) ** (1/2)
+-- | lista que contiene a los números impares de 0 a n.
+impares n = error "D:"
 
--- | Función que calcula la suma de los primeros n números (Suma de Gauss).
+-- | lista que contiene a los números de 0 a n, los cuales son múltiplos de k.
+multiplosNK n k = error "D:"
+
+-- | lista que contiene la suma de gauss de cada número desde 0 hasta n.
+sumaDeGauss n = error "D:"
+
+-- | lista que contiene el producto cruz de dos listas.
+productoCruz l1 l2 = error "D:"
+
+-- | lista que regresa la diferencia simétrica de dos listas.
+diferenciaSimetrica l1 l2 = error "D:"
+
+--------------------------------------------------------------------------------
+--------                            AUXILIARES                          --------
+--------------------------------------------------------------------------------
+
 sumaGauss :: Int -> Int
-sumaGauss a = (a-1)*a
-
--- | Función que calcula el área de un triángulo dados tres puntos.
-areaTri :: Double -> Double -> Double -> Double -> Double -> Double -> Double
-areaTri x1 y1 x2 y2 x3 y3 = abs ((x1*y2)+(x2*y3)+(x3*y1)-(y1*x2)-(y2*x3)-(y3*x1)) * (1/2)
+sumaGauss a = ((a+1)*a) `div` 2
 
 --------------------------------------------------------------------------------
---------                             PRUEBAS                            --------
+--------                             EJEMPLOS                           --------
 --------------------------------------------------------------------------------
-pruebaEjemplo = sucN 5
---assert _ pruebaEjemplo = 6
--- Regresa: 6
 
-maxNum1 = maxNum 1 0
---assert _ maxNum1 = 1
+lnums = [1,2,3,4]
+
+lchar = ['a', 'b', 'c', 'd']
+
+limprs = [1,3,5,7,9]
+
+lmults = [0,3,6,9]
+
+lgauss = [0,1,3,6,10,15,21,28,36,45,55]
+
+lpcruz = [(1,0),(1,3),(1,6),(1,9),(2,0),(2,3),(2,6),(2,9),(3,0),(3,3),(3,6),(3,9),(4,0),(4,3),(4,6),(4,9)]
+
+ldiffs = [0,5,6,7,8,9,10]
+
+cabeza1 = cabeza lnums
 -- Regresa: 1
 
-maxNum2 = maxNum (-1) 0
---assert _ maxNum2 = 0
--- Regresa: 0
+cabeza2 = cabeza lchar
+-- Regresa: 'a'
 
-sumaNum1 = sumaNum 1 3
---assert _ sumaNum1 = 4
+cola1 = cola lnums
+-- Regresa: [2,3,4]
+
+cola2 = cola lchar
+-- Regresa: ['b','c','d']
+
+ultimo1 = ultimo lnums
 -- Regresa: 4
 
-sumaNum2 = sumaNum (-7) 8
---assert _ sumaNum2 = 1
--- Regresa: 1
+ultimo2 = ultimo lchar
+-- Regresa: 'd'
 
-restaNum1 = restaNum 9 6
---assert _ restaNum1 = 3
--- Regresa: 3
+casiTodos1 = casiTodos lnums
+-- Regresa: [1,2,3]
 
-restaNum2 = restaNum 1 3
---assert _ restaNum2 = -2
--- Regresa: -2
+casiTodos2 = casiTodos lchar
+-- Regresa: ['a','b','c']
 
-restaNum3 = restaNum (-1) 1
---assert _ restaNum3 = -2
--- Regresa: -2
+op1 = (!!!) lnums 0
+-- Regresa: 4
 
-multNum1 = multNum 0 3
---assert _ multNum1 = 0
--- Regresa: 0
+op2 = (!!!) lchar 3
+-- Regresa: 'a'
 
-multNum2 = multNum 9 8
---assert _ multNum2 = 72
--- Regresa: 72
-
-divNum1 = divNum 4 2
---assert _ divNum1 = 2
--- Regresa: 2
-
-divNum2 = divNum 9 4
---assert _ divNum2 = 2
--- Regresa: 2
-
-negP1 = negP True
---assert _ negP1 = False
--- Regresa: False
-
-negP2 = negP False
---assert _ negP2 = False
+existe1 = existe lnums 1
 -- Regresa: True
 
-conjP1 = conjP True True
---assert _ conjP1 = True
--- Regresa: True
-
-conjP2 = conjP False True
---assert _ conjP2 = False
+existe2 = existe lchar 'e'
 -- Regresa: False
 
-disyP1 = disyP False False
---assert _ disyP1 = False
--- Regresa: False
+sumaNumsList1 = sumaNumsList lnums
+-- Regresa: 10
 
-disyP2 = disyP True False
---assert _ disyP2 = True
+sumaNumsList2 = sumaNumsList $ lnums ++ lnums ++ lnums
+-- Regresa: 30
+
+repeticiones1 = repeticiones [1,1,1,1,2,2,2,3,3,3,3,4,4,4,4,5,6,7,7,1]
+-- Regresa: [1,2,3,4,5,6,7] EL ORDEN PUEDE VARIAR; solo importan los elementos.
+
+repeticiones2 = repeticiones [(1,2), (2,1), (0,1), (1,2), (1,2), (0,1), (1,2), (2,1), (3,4), (1,2)]
+-- Regresa: [(0,1),(1,2),(2,1),(3,4)] EL ORDEN PUEDE VARIAR; solo importan los elementos.
+
+reversa1 = reversa lnums
+-- Regresa: [4,3,2,1]
+
+reversa2 = reversa lchar
+-- Regresa: ['d','c','b','a']
+
+imparesP = impares 10 == limprs
 -- Regresa: True
 
-absNum1 = absNum 9
---assert _ absNum1 = 9
--- Regresa: 9
+multipsP = multiplosNK 10 3 == lmults
+-- Regresa: True
 
-absNum2 = absNum (-9)
---assert _ absNum2 = 9
--- Regresa: 9
+gaussssP = sumaDeGauss 10 == lgauss
+-- Regresa: True
 
-areaCirc1 = areaCirc 2
---assert _ areaCirc1 = 12.566370614359172
--- Regresa: 12.57
+procruzP = productoCruz lnums lmults == lpcruz
+-- Regresa: True
 
-areaCirc2 = areaCirc 2.5
---assert _ areaCirc2 = 19.634954084936208
--- Regresa: 19.63
-
-distancia1 = distancia 1 2 (-3) 4
---assert _ distancia1 = 4.47
--- Regresa: 4.47
-
-distancia2 = distancia (-3) 0 (-4) 6
---assert _ distancia2 = 6.08
--- Regresa: 6.08
-
-sumaGauss1 = sumaGauss 10
---assert _ sumaGauss1 = 55
--- Regresa: 55
-
-sumaGauss2 = sumaGauss 1000
---assert _ sumaGauss2 = 500500
--- Regresa: 500500
-
-areaTri1 = areaTri (-8) (-2) 4 6 1 5
---assert _ areaTri1 = 6.0
--- Regresa: 6.0
-
-areaTri2 = areaTri (-8) (-2) 4 6 (-1) (-5)
---assert _ areaTri2 = 46.0
--- Regresa: -46.0
+difffffP = diferenciaSimetrica [0..10] lnums == ldiffs
+-- Regresa: True
