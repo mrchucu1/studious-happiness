@@ -37,7 +37,7 @@ casiTodos a = take ((length a) - 1 ) a
 
 -- | Función que regresa el n-ésimo elemento de atrás para adelante.
 (!!!) :: [a] -> Int -> a
-(!!!) a n = a !! n 
+(!!!) a n = ( take 1 (drop n a ) ) !! 0
 
 -- | Función que nos dice si un elemento está en una lista.
 existe :: (Eq a) => [a] -> a -> Bool
@@ -71,7 +71,7 @@ impares n = error "D:"
 multiplosNK n k = error "D:"
 
 -- | lista que contiene la suma de gauss de cada número desde 0 hasta n.
-sumaDeGauss n = error "D:"
+sumaDeGauss n = 
 
 -- | lista que contiene el producto cruz de dos listas.
 productoCruz l1 l2 = error "D:"
