@@ -37,7 +37,7 @@ casiTodos a = take ((length a) - 1 ) a
 
 -- | Función que regresa el n-ésimo elemento de atrás para adelante.
 (!!!) :: [a] -> Int -> a
-(!!!) a n = ( take 1 (drop n a ) ) !! 0
+(!!!) a n = cabeza ( take 1 (drop n a ) )
 
 -- | Función que nos dice si un elemento está en una lista.
 existe :: (Eq a) => [a] -> a -> Bool
@@ -45,11 +45,19 @@ existe x q = length ( filter (== q) x )  /= 0
 
 -- | Función que suma todos los elementos de una lista de números.
 sumaNumsList :: [Int] -> Int
-sumaNumsList a = sum a
+sumaNumsList x@(a:cx)
+  | length x == 0 = 0
+  | length x == 1 = a
+  | length x > 1  = a + (sumaNumsList cx)
 
 -- | Función que quita los repetidos de una lista.
 repeticiones :: Eq a => [a] -> [a]
-repeticiones = error "D:"
+repeticiones x@(a:b:c:cx)
+  | x == []       = []
+  | length x == 1 = [a]
+  | length x == 2 = if a == b then [a] else [a,b]
+  | length x == 3 = if a == b && a == c then [a] else if b == c then [a,b] else [a,b,c]
+  | otherwise     = if a == b then [a] ++ (repeticiones ( [a] ++ cx ) ) else [a,b] ++ (repeticiones cx)
 
 -- | Función que voltea una lista.
 reversa :: [a] -> [a]
@@ -71,7 +79,7 @@ impares n = error "D:"
 multiplosNK n k = error "D:"
 
 -- | lista que contiene la suma de gauss de cada número desde 0 hasta n.
-sumaDeGauss n = 
+sumaDeGauss n = error ":O"
 
 -- | lista que contiene el producto cruz de dos listas.
 productoCruz l1 l2 = error "D:"
