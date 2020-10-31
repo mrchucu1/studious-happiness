@@ -19,73 +19,82 @@ module FuncionesListas where
 
 -- | Función que regresa la cabeza de una lista.
 cabeza :: [a] -> a
-cabeza (a:cx) = a 
+cabeza (a:_) = a 
 
 -- | Función que regresa la cola de una lista.
 cola :: [a] -> [a]
-cola (a:cx) = cx 
+cola (_:cx) = cx 
 
 -- | Función que regresa el último elemento de una lista.
 ultimo :: [a] -> a
+ultimo []  = error "We don't do that here!"
 ultimo [a] = a
-ultimo (_:a) = ultimo a 
-ultimo [] = error "You have no power here!"
+ultimo a   = ultimo ( take 1 ( drop ((nolength a)-1) a ) )
 
 -- | Función que devuelve la lista menos el último elemento.
 casiTodos :: [a] -> [a]
-casiTodos a = take ((length a) - 1 ) a
+casiTodos a = take ((nolength a) -1 ) a
 
 -- | Función que regresa el n-ésimo elemento de atrás para adelante.
 (!!!) :: [a] -> Int -> a
-(!!!) a n = cabeza ( take 1 (drop n a ) )
+(!!!) a n = cabeza ( take 1 ( drop ((nolength a) - n) a ) )
 
 -- | Función que nos dice si un elemento está en una lista.
 existe :: (Eq a) => [a] -> a -> Bool
-existe x q = length ( filter (== q) x )  /= 0
+existe x q = nolength ( filter (== q) x )  /= 0
 
 -- | Función que suma todos los elementos de una lista de números.
 sumaNumsList :: [Int] -> Int
 sumaNumsList x@(a:cx)
-  | length x == 0 = 0
-  | length x == 1 = a
-  | length x > 1  = a + (sumaNumsList cx)
+  | nolength x == 0 = 0
+  | nolength x == 1 = a
+  | nolength x > 1  = a + (sumaNumsList cx)
 
 -- | Función que quita los repetidos de una lista.
 repeticiones :: Eq a => [a] -> [a]
-repeticiones x@(a:b:c:cx)
-  | x == []       = []
-  | length x == 1 = [a]
-  | length x == 2 = if a == b then [a] else [a,b]
-  | length x == 3 = if a == b && a == c then [a] else if b == c then [a,b] else [a,b,c]
-  | otherwise     = if a == b then [a] ++ (repeticiones ( [a] ++ cx ) ) else [a,b] ++ (repeticiones cx)
+repeticiones [] = []
+repeticiones (x:xs) = if existe xs x
+    then repeticiones xs
+    else x:repeticiones xs
 
 -- | Función que voltea una lista.
+-- Bad implementation, but it it what it is. TODO: it was not.
 reversa :: [a] -> [a]
-reversa = error "D:"
+reversa [a]     = [a]
+reversa x@(_:_) = [(ultimo x)] ++ (reversa (casiTodos x))
 
 -- | Función que regresa una tupla (a, b) donde a es el elemento de la lista y b
 --           es el número de veces que se repite 'a'.
-cuantasVeces :: (Eq a) => [a] -> a -> [(a, Int)]
-cuantasVeces = error "D:"
+cuantasVeces :: (Eq a) => [a] -> [(a, Int)]
+cuantasVeces []     = []
+cuantasVeces (x:xs) = (x, (count (x:xs) x)):cuantasVeces (remove xs x)
+
+count :: (Eq a) => [a] -> a -> Int
+count [] _     = 0
+count (x:xs) e = if e == x then 1 + count xs e else count xs e
+
+remove :: (Eq a) => [a] -> a -> [a]
+remove [] _     = []
+remove (x:xs) e = if e == x then remove xs e else x:(remove xs e)
 
 --------------------------------------------------------------------------------
 --------                     LISTAS POR COMPRENSIÓN                     --------
 --------------------------------------------------------------------------------
 
 -- | lista que contiene a los números impares de 0 a n.
-impares n = error "D:"
+impares n = [x | x <- [0..n], (x `mod` 2) /= 0]
 
 -- | lista que contiene a los números de 0 a n, los cuales son múltiplos de k.
-multiplosNK n k = error "D:"
+multiplosNK n k = [x | x <- [0..n], (x `mod` k) == 0]
 
 -- | lista que contiene la suma de gauss de cada número desde 0 hasta n.
-sumaDeGauss n = error ":O"
+sumaDeGauss n = [sumaGauss x | x <- [0..n]]
 
 -- | lista que contiene el producto cruz de dos listas.
-productoCruz l1 l2 = error "D:"
+productoCruz l1 l2 = [ (i,j) | i <- l1 , j <- l2 ]
 
 -- | lista que regresa la diferencia simétrica de dos listas.
-diferenciaSimetrica l1 l2 = error "D:"
+diferenciaSimetrica l1 l2 = [ x | x <- l1 ++ l2, ( ((existe l1 x) && not ( existe l2 x)) || ( (existe l2 x) && not ( existe l1 x) ) )]
 
 --------------------------------------------------------------------------------
 --------                            AUXILIARES                          --------
@@ -93,6 +102,24 @@ diferenciaSimetrica l1 l2 = error "D:"
 
 sumaGauss :: Int -> Int
 sumaGauss a = ((a+1)*a) `div` 2
+
+nolength :: [a] -> Int
+nolength []     = 0
+nolength [a]    = 1
+nolength (_:cx) = 1 + nolength cx
+
+nodrop :: Int -> [a] -> [a]
+nodrop _ [] = []
+nodrop n xs@(_:xs')
+    | n > 0     = nodrop (n-1) xs'
+    | otherwise = xs
+
+
+notake :: Int -> [a] -> [a]
+notake 0 _ = []
+notake n x@(a:cx)
+    | (nolength x) <= n = x
+    | otherwise         = if n <= 1 then [a] else [a] ++ notake (n-1) cx
 
 --------------------------------------------------------------------------------
 --------                             EJEMPLOS                           --------
