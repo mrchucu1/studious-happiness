@@ -6,7 +6,10 @@
 - Laboratorio: Emiliano Galeana Araujo
 - Laboratorio: Ing. Rodrigo Guadalupe Chávez Jiménez
 - Practica 3: Funciones sobre listas
-- Integrantes: Diego Navarro Macias
+- Integrantes:
+- Sofia Alatorre
+- Edson Morales
+- Diego Navarro
 -
 -
 -}
@@ -19,17 +22,17 @@ module FuncionesListas where
 
 -- | Función que regresa la cabeza de una lista.
 cabeza :: [a] -> a
-cabeza (a:_) = a 
+cabeza (a:_) = a
 
 -- | Función que regresa la cola de una lista.
 cola :: [a] -> [a]
-cola (_:cx) = cx 
+cola (_:cx) = cx
 
 -- | Función que regresa el último elemento de una lista.
 ultimo :: [a] -> a
 ultimo []  = error "We don't do that here!"
 ultimo [a] = a
-ultimo a   = ultimo ( take 1 ( drop ((nolength a)-1) a ) )
+ultimo a   = ultimo ( take 1 ( nodrop ((nolength a)-1) a ) )
 
 -- | Función que devuelve la lista menos el último elemento.
 casiTodos :: [a] -> [a]
@@ -37,11 +40,14 @@ casiTodos a = take ((nolength a) -1 ) a
 
 -- | Función que regresa el n-ésimo elemento de atrás para adelante.
 (!!!) :: [a] -> Int -> a
-(!!!) a n = cabeza ( take 1 ( drop ((nolength a) - n) a ) )
+(!!!) a n = cabeza ( take 1 ( nodrop ((nolength a) - n) a ) )
 
 -- | Función que nos dice si un elemento está en una lista.
 existe :: (Eq a) => [a] -> a -> Bool
-existe x q = nolength ( filter (== q) x )  /= 0
+existe x@(a:xs) q
+  | nolength x == 0 = False
+  | nolength x == 1 = (a == q)
+  | otherwise       = (q == a) || existe xs q
 
 -- | Función que suma todos los elementos de una lista de números.
 sumaNumsList :: [Int] -> Int
@@ -60,22 +66,15 @@ repeticiones (x:xs) = if existe xs x
 -- | Función que voltea una lista.
 -- Bad implementation, but it it what it is. TODO: it was not.
 reversa :: [a] -> [a]
-reversa [a]     = [a]
-reversa x@(_:_) = [(ultimo x)] ++ (reversa (casiTodos x))
+reversa [a] = [a]
+reversa x   = [(ultimo x)] ++ (reversa (casiTodos x))
+
 
 -- | Función que regresa una tupla (a, b) donde a es el elemento de la lista y b
 --           es el número de veces que se repite 'a'.
 cuantasVeces :: (Eq a) => [a] -> [(a, Int)]
 cuantasVeces []     = []
-cuantasVeces (x:xs) = (x, (count (x:xs) x)):cuantasVeces (remove xs x)
-
-count :: (Eq a) => [a] -> a -> Int
-count [] _     = 0
-count (x:xs) e = if e == x then 1 + count xs e else count xs e
-
-remove :: (Eq a) => [a] -> a -> [a]
-remove [] _     = []
-remove (x:xs) e = if e == x then remove xs e else x:(remove xs e)
+cuantasVeces a@(x:xs) = (x, (count a x)):cuantasVeces (remove xs x)
 
 --------------------------------------------------------------------------------
 --------                     LISTAS POR COMPRENSIÓN                     --------
@@ -120,6 +119,14 @@ notake 0 _ = []
 notake n x@(a:cx)
     | (nolength x) <= n = x
     | otherwise         = if n <= 1 then [a] else [a] ++ notake (n-1) cx
+
+count :: (Eq a) => [a] -> a -> Int
+count [] _     = 0
+count (x:xs) e = if e == x then 1 + count xs e else count xs e
+
+remove :: (Eq a) => [a] -> a -> [a]
+remove [] _     = []
+remove (x:xs) e = if e == x then remove xs e else x:(remove xs e)
 
 --------------------------------------------------------------------------------
 --------                             EJEMPLOS                           --------
