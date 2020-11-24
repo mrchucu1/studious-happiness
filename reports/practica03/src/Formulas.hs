@@ -35,8 +35,8 @@ type Modelo = [String]
 niegalo :: Prop -> Prop
 niegalo (Var x) = Neg (Var x)
 niegalo (Neg p) = p
-niegalo (Conj p q) = Disy (niegalo p) (niegalo q) 
-niegalo (Disy p q) = Conj (niegalo p) (niegalo q) 
+niegalo (Conj p q) = Disy (niegalo p) (niegalo q)
+niegalo (Disy p q) = Conj (niegalo p) (niegalo q)
 niegalo impl = niegalo (quitaImps impl)
 
 -- | quitaImps. Función que quita las implicaciones de una
@@ -45,19 +45,20 @@ quitaImps :: Prop -> Prop
 quitaImps (Var x) = Var x
 quitaImps (Neg p) = Neg (quitaImps p)
 quitaImps (Conj p q) = Conj (quitaImps p) (quitaImps q)
-quitaImps (Disy p q) = Disy (quitaImps p) (quitaImps q) 
-quitaImps (Impl p q) = Disy (Neg (quitaImps p)) (quitaImps q) 
+quitaImps (Disy p q) = Disy (quitaImps p) (quitaImps q)
+quitaImps (Impl p q) = Disy (Neg (quitaImps p)) (quitaImps q)
 quitaImps (Syss p q) = Conj (Disy (Neg (quitaImps p)) (quitaImps q)) (Disy (Neg (quitaImps q)) (quitaImps p))
 
 -- | interpreta. Función que interpreta una proposición dados sus
 -- valores de verdad.
 interpreta :: Modelo -> Prop -> MyBool
-interpreta = error "D:"
+interpreta [] _ = error "WTF"
+interpreta m@(x:xs) pro = BTrue
 {--
  --	B: Es un bebé.
  --	M: Puede manejar un cocodrilo.
  --	L: Es lógico.
- -- 	D: Es despistado.
+ --	D: Es despistado.
  --
  --}
 

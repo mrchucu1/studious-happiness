@@ -1,10 +1,11 @@
-tructuras Discretas 2021-1
+{-
+- Etructuras Discretas 2021-1
 - Profesor: Alma Rosario Arévalo Loyola
 - Ayudante: José Ricardo Desales Santos
 - Ayudante: Karla Socorro García Alcántara
 - Laboratorio: Emiliano Galeana Araujo
 - Laboratorio: Ing. Rodrigo Guadalupe Chávez Jiménez
-- Ejercicio Semanal 2: Nuestros Booleanos
+- ercicio Semanal 2: Nuestros Booleanos
 - Integrantes:
 -
 -
