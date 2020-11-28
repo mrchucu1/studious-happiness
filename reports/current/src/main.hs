@@ -22,22 +22,26 @@ import Data.Char
 -- | Función recursiva que recibe un número y devuelve True si es par
 -- o False e.o.c. Nota: Debes usar a 'impar' para implementarla.
 par :: Int -> Bool
-par = error "D:"
+par 0 = True
+par 1 = False
+par x = par (x-2) 
 
 -- | Función recursiva que recibe un número y devuelve True si es
 -- impar o False e.o.c. Nota: Debes usar a 'par' para implementarla.
 impar :: Int -> Bool
-impar = error "D:"
+impar = error "lol"
 
 -- | Toma los primeros 5 elementos de una lista y devuelve la reversa
 -- de esa lista de 5 elementos. Si la lista tiene menos de 5 elementos
 -- devuelve una lista vacía
 reversa5 :: [Int] -> [Int]
-reversa5 = error "D:"
+reversa5 [] = []
+
 
 -- | Recibe un entero y devuelve la suma de sus dígitos
 sumaDigitos :: Int -> Int
-sumaDigitos = error "D:"
+sumaDigitos 0 = 0
+sumaDigitos x = sumaDigitos (x-1) 
 
 -- | Recibe una lista de enteros y multiplica por dos el elemento que
 -- se encuentre cada dos posiciones empezando por el final.
@@ -47,12 +51,18 @@ duplicaCadaDos = error "D:"
 -- | Función recursiva que recibe dos enteros n y m y devuelve la
 -- potencia de n^m
 eleva :: Int -> Int -> Int
-eleva = error "D:"
+eleva m 0 = 1
+eleva m 1 = m
+eleva m n = eleva (multiplica m m) (n-1)
 
 -- | Función recursiva que recibe dos enteros n y m y devuelve la
 -- suma de n+m.
 suma :: Int -> Int -> Int
-suma = error "D:"
+suma a 0 = a
+suma 0 a = a
+suma x y 
+    | y > 0 = suma (x + 1) (y - 1)
+    | otherwise = suma (x-1) ( y + 1)
 
 -- | Función recursiva que recibe dos enteros n y m y devuelve la
 -- resta de n-m. NOTA Solo sirve en positivos.
@@ -62,19 +72,38 @@ resta = error "D:"
 -- | Función recursiva que recibe dos enteros n y m y devuelve la
 -- multiplicacion de n*m
 multiplica :: Int -> Int -> Int
-multiplica = error "D:"
+multiplica 0 _ = 0
+multiplica _ 0 = 0
+multiplica 1 n = n
+multiplica m 1 = m
+multiplica m n = suma m (multiplica m (n-1))
 
 -- | Función recursiva que recibe un entero y calcula su factorial.
 fact :: (Eq p, Num p) => p -> p
-fact = error "D:"
+fact 0 = 1
+fact x =  x * (fact (x - 1))
 
 -- | Función recursiva que calcula números de fibonacci.
 fibonacci :: (Eq a, Num a, Num p) => a -> p
-fibonacci = error "D:"
+fibonacci 0 = 0
+fibonacci 1 = 1
+fibonacci n = fibonacci (n-1) + fibonacci (n-2)
+
+fiboAt :: Int -> String
+fiboAt x
+  | x < 0 = error "We don't do that here!"
+  | x == 0 = "Fib(0) = 0"
+  | x == 1 = "Fib(1) = 1"
+  | otherwise = ( "Fib(" ++ (show x) ++ ") = " ++ (show ( round $ phi ** fromIntegral x / sq5 ) ) )
+  where
+    sq5 = sqrt 5 :: Double
+    phi = (1 + sq5) / 2
 
 -- | Función recursiva que es la función de Ackerman.
 ackerman :: Int -> Int -> Int
-ackerman = error "D:"
+ackerman 0 n = n + 1
+ackerman m 0 = ackerman (m - 1) 1
+ackerman m n = ackerman m (ackerman m (n-1))
 
 -- | myFilter. Función que emula a filter.
 myFilter :: (a -> Bool) -> [a] -> [a]
